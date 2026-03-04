@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        handwritten: ["Caveat", "cursive"],
+        body: ["Lora", "serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,6 +51,19 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        pin: {
+          DEFAULT: "hsl(var(--pin))",
+          foreground: "hsl(var(--pin-foreground))",
+        },
+        cork: "hsl(var(--cork))",
+        paper: {
+          DEFAULT: "hsl(var(--paper))",
+          dark: "hsl(var(--paper-dark))",
+        },
+        ink: {
+          DEFAULT: "hsl(var(--ink))",
+          light: "hsl(var(--ink-light))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -65,25 +82,27 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "pin-wobble": {
+          "0%, 100%": { transform: "rotate(var(--rotation, -2deg))" },
+          "50%": { transform: "rotate(calc(var(--rotation, -2deg) + 1deg))" },
+        },
+        "float-in": {
+          from: { opacity: "0", transform: "translateY(20px) rotate(var(--rotation, -2deg))" },
+          to: { opacity: "1", transform: "translateY(0) rotate(var(--rotation, -2deg))" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "pin-wobble": "pin-wobble 3s ease-in-out infinite",
+        "float-in": "float-in 0.5s ease-out forwards",
       },
     },
   },
