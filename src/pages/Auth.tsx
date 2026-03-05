@@ -1,10 +1,10 @@
+import Logo from "@/components/Logo";
 import { useAuth } from "@/contexts/AuthContext";
 import { sendVerificationEmailLink, signIn, signUp } from "@/integrations/firebase";
 import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Logo from "@/components/Logo";
 
 type AuthMode = "login" | "signup";
 type SignUpStep = "form" | "verify";
@@ -128,8 +128,6 @@ export default function Auth() {
               exit={{ opacity: 0, y: -20 }}
               className="bg-paper p-8 pb-12 shadow-xl torn-edge-bottom relative"
             >
-              <Thumbtack />
-
               <h2 className="font-handwritten text-4xl text-center text-ink mb-1 mt-2">
                 Welcome back
               </h2>
@@ -183,8 +181,6 @@ export default function Auth() {
               exit={{ opacity: 0, y: -20 }}
               className="bg-paper p-8 pb-12 shadow-xl torn-edge-bottom relative"
             >
-              <Thumbtack />
-
               <h2 className="font-handwritten text-4xl text-center text-ink mb-1 mt-2">
                 Join the wall
               </h2>
@@ -247,8 +243,6 @@ export default function Auth() {
               exit={{ opacity: 0, y: -20 }}
               className="bg-paper p-8 pb-12 shadow-xl torn-edge-bottom relative"
             >
-              <Thumbtack />
-
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -284,17 +278,6 @@ export default function Auth() {
 }
 
 // ─── Shared sub-components ───────────────────────────────────
-
-function Thumbtack() {
-  return (
-    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-5 h-5 z-20">
-      <div
-        className="w-5 h-5 rounded-full mx-auto shadow-sm"
-        style={{ background: "radial-gradient(circle at 35% 35%, hsl(0 80% 60%), hsl(0 70% 38%))" }}
-      />
-    </div>
-  );
-}
 
 function BackToHome() {
   return (
