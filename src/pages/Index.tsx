@@ -993,6 +993,23 @@ export default function Index() {
     return "👁️ Reading";
   }, [zoomZone]);
 
+  // ── Attach native wheel listener with { passive: false } so preventDefault works ──
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Avoid zooming while a mouse button is held (e.g. while dragging)
+      if (e.buttons !== 0) return;
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP;
+      zoomToward(e.clientX, e.clientY, delta);
+    };
+
+    viewport.addEventListener("wheel", handleWheel, { passive: false });
+    return () => viewport.removeEventListener("wheel", handleWheel);
+  }, [zoomToward, loading]);
+
   const myWallNotes = useMemo(
     () => (user ? notes.filter((n) => n.authorId === user.uid && n.onWall) : []),
     [notes, user],
@@ -1029,14 +1046,7 @@ export default function Index() {
           <div
             ref={viewportRef}
             className="absolute inset-0 overflow-hidden"
-            style={{ touchAction: "none" }}
-            onWheel={(e) => {
-              // Avoid zooming while a mouse button is held (e.g. while dragging)
-              if (e.buttons !== 0) return;
-              e.preventDefault();
-              const delta = e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP;
-              zoomToward(e.clientX, e.clientY, delta);
-            }}
+            style={{ touchAction: "pan-x pan-y" }}
           >
             {/* ── Controls (top-right) ── */}
             <div className="absolute right-4 top-4 z-20 flex flex-col gap-2 rounded-lg bg-paper/90 p-2 shadow-lg backdrop-blur-sm">
@@ -1102,7 +1112,7 @@ export default function Index() {
                 transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
                 transformOrigin: "0 0",
                 cursor: isPanning ? "grabbing" : "grab",
-                touchAction: "none",
+                touchAction: "pan-x pan-y",
               }}
               onPointerDown={startPan}
               onPointerMove={onPanMove}
