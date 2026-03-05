@@ -2,9 +2,9 @@ import Logo from "@/components/Logo";
 import { useAuth } from "@/contexts/AuthContext";
 import { sendVerificationEmailLink, signIn, signUp } from "@/integrations/firebase";
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckCircle2, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 type AuthMode = "login" | "signup";
 type SignUpStep = "form" | "verify";
@@ -110,7 +110,15 @@ export default function Auth() {
 
   // ─── Render ───────────────────────────────────────────────
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 relative">
+      <Link
+        to="/"
+        className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 text-ink-light hover:text-ink transition-colors font-body text-sm md:text-base group z-50"
+      >
+        <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
+        Back to Home
+      </Link>
+
       <div className="w-full max-w-md">
         <div className="flex items-center justify-center gap-2 mb-8">
           <Logo className="h-10" />
@@ -167,8 +175,6 @@ export default function Auth() {
                   Don't have an account? Sign up
                 </button>
               </div>
-
-              <BackToHome />
             </motion.div>
           )}
 
@@ -229,8 +235,6 @@ export default function Auth() {
                   Already have an account? Sign in
                 </button>
               </div>
-
-              <BackToHome />
             </motion.div>
           )}
 
@@ -267,8 +271,6 @@ export default function Auth() {
                   Go to Login
                 </button>
               </motion.div>
-
-              <BackToHome />
             </motion.div>
           )}
         </AnimatePresence>
@@ -278,19 +280,6 @@ export default function Auth() {
 }
 
 // ─── Shared sub-components ───────────────────────────────────
-
-function BackToHome() {
-  return (
-    <div className="mt-6 pt-4 border-t border-border relative z-10">
-      <a
-        href="/"
-        className="block text-center font-body text-sm text-ink-light hover:text-ink transition-colors"
-      >
-        ← Back to home
-      </a>
-    </div>
-  );
-}
 
 function ErrorBanner({ message }: { message: string }) {
   return (
