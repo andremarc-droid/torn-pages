@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { BookOpen, Shield, Users, Ear, Scissors, Heart } from "lucide-react";
+import Logo from "@/components/Logo";
 
 const features = [
   {
@@ -70,7 +71,7 @@ export default function Landing() {
       <header className="relative z-20 border-b border-border/50 bg-card/60 backdrop-blur-md">
         <div className="container flex items-center justify-between h-16 px-4">
           <Link to="/" className="flex items-center gap-2">
-            <EarLogo />
+            <Logo className="h-8" />
             <span className="font-handwritten text-2xl font-bold text-foreground">
               Notes &amp; Ears
             </span>
@@ -310,7 +311,7 @@ export default function Landing() {
       <footer className="relative z-10 py-8 bg-card border-t border-border/50">
         <div className="container px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <EarLogo />
+            <Logo className="h-7" />
             <span className="font-handwritten text-lg text-foreground">Notes &amp; Ears</span>
           </div>
           <p className="font-body text-xs text-muted-foreground">
@@ -319,35 +320,5 @@ export default function Landing() {
         </div>
       </footer>
     </div>
-  );
-}
-
-/* ── Shared logo component ── */
-function EarLogo() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M14 2C8.48 2 4 6.48 4 12c0 3.5 1.8 6.6 4.5 8.4.5.3.8.9.8 1.5V24c0 1.1.9 2 2 2h5.4c1.1 0 2-.9 2-2v-2.1c0-.6.3-1.2.8-1.5C22.2 18.6 24 15.5 24 12c0-5.52-4.48-10-10-10z"
-        fill="hsl(var(--primary))"
-        opacity="0.9"
-      />
-      <path
-        d="M14 5c-3.87 0-7 3.13-7 7 0 2.2 1 4.2 2.6 5.5"
-        stroke="hsl(var(--primary-foreground))"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M14 8c-2.21 0-4 1.79-4 4s1.79 4 4 4"
-        stroke="hsl(var(--primary-foreground))"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <rect x="17" y="3" width="8" height="10" rx="1" fill="hsl(var(--paper))" transform="rotate(15 21 8)" />
-      <line x1="19" y1="5.5" x2="24" y2="4.5" stroke="hsl(var(--ink-light))" strokeWidth="0.8" transform="rotate(15 21 8)" />
-      <line x1="19" y1="7.5" x2="23" y2="6.5" stroke="hsl(var(--ink-light))" strokeWidth="0.8" transform="rotate(15 21 8)" />
-    </svg>
   );
 }

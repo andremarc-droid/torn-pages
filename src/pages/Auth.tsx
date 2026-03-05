@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Logo from "@/components/Logo";
 
 type AuthMode = "login" | "signup";
 type SignUpStep = "form" | "verify";
@@ -111,6 +112,12 @@ export default function Auth() {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-md">
+        <div className="flex items-center justify-center gap-2 mb-8">
+          <Logo className="h-10" />
+          <span className="font-handwritten text-3xl font-bold text-foreground">
+            Notes &amp; Ears
+          </span>
+        </div>
         <AnimatePresence mode="wait">
           {/* ─── Login Form ─────────────────────────────── */}
           {mode === "login" && (
