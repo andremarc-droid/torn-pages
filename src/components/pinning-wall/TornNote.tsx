@@ -1,6 +1,5 @@
-import { motion } from "framer-motion";
-import { Heart, MessageCircle, Flame, Frown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 interface TornNoteProps {
   content: string;
@@ -9,6 +8,11 @@ interface TornNoteProps {
   reactions?: { heart: number; thought: number; fire: number; sad: number };
   rotation?: number;
   delay?: number;
+  onDoubleClickPin?: (e: React.MouseEvent) => void;
+  onDoubleClickPaper?: (e: React.MouseEvent) => void;
+  onReact?: (e: React.MouseEvent, type: "heart" | "thought" | "fire" | "sad") => void;
+  isPinned?: boolean;
+  isHighlighted?: boolean;
 }
 
 const reactionIcons = [
@@ -25,6 +29,11 @@ export default function TornNote({
   reactions = { heart: 0, thought: 0, fire: 0, sad: 0 },
   rotation = 0,
   delay = 0,
+  onDoubleClickPin,
+  onDoubleClickPaper,
+  onReact,
+  isPinned = false,
+  isHighlighted = false,
 }: TornNoteProps) {
   return (
     <motion.div
@@ -32,12 +41,28 @@ export default function TornNote({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: delay * 0.1, duration: 0.4, ease: "easeOut" }}
       style={{ "--rotation": `${rotation}deg` } as React.CSSProperties}
-      className="group relative"
+      className={cn(
+        "group relative transition-[filter] duration-700",
+        isHighlighted ? "drop-shadow-[0_0_8px_rgba(255,255,255,1)] drop-shadow-[0_0_25px_rgba(250,204,21,0.9)] z-50" : "drop-shadow-none"
+      )}
+      data-note
     >
       {/* Thumbtack */}
-      <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10 w-5 h-5">
-        <div className="w-4 h-4 rounded-full bg-pin shadow-md mx-auto" 
-          style={{ background: "radial-gradient(circle at 35% 35%, hsl(0 80% 60%), hsl(0 70% 38%))" }}
+      <div
+        className="absolute -top-2 left-1/2 -translate-x-1/2 z-20 w-8 h-8 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
+        onDoubleClick={onDoubleClickPin}
+        title={
+          isPinned
+            ? "This note is pinned here until it expires."
+            : "Double-click to pin this note here until it expires."
+        }
+      >
+        <div
+          className="w-4 h-4 rounded-full bg-pin shadow-md mx-auto"
+          style={{
+            background:
+              "radial-gradient(circle at 35% 35%, hsl(0 80% 60%), hsl(0 70% 38%))",
+          }}
         />
         <div className="w-1 h-2 bg-pin/60 mx-auto -mt-0.5 rounded-b-full" />
       </div>
@@ -45,10 +70,12 @@ export default function TornNote({
       {/* Paper note */}
       <div
         className={cn(
-          "bg-paper p-5 pt-6 pb-8 shadow-lg transition-transform duration-300",
+          "bg-paper p-5 pt-6 pb-8 shadow-lg transition-all duration-500",
           "hover:scale-105 hover:shadow-xl cursor-pointer",
-          "torn-edge-bottom"
+          "torn-edge-bottom",
+          isHighlighted && "scale-105"
         )}
+        onDoubleClick={onDoubleClickPaper}
         style={{ transform: `rotate(${rotation}deg)` }}
       >
         {/* Content */}
@@ -78,6 +105,7 @@ export default function TornNote({
           {reactionIcons.map(({ key, icon }) => (
             <button
               key={key}
+              onClick={(e) => onReact?.(e, key as keyof typeof reactions)}
               className="flex items-center gap-1 text-xs font-body text-ink-light hover:text-ink transition-colors bg-paper-dark/50 px-2 py-1 rounded-full hover:bg-paper-dark"
             >
               <span>{icon}</span>
